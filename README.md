@@ -17,3 +17,9 @@ npm install -g @nestjs/cli
 ```zsh
 nest new hi-nest    # project name: hi-nest
 ```
+
+- run
+
+```zsh
+npm run start:dev
+```
