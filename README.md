@@ -26,7 +26,7 @@ Learning how to build Enterprise NodeJS applications using NestJS
 
 - http://localhost:3000
 
-## 1. Architecture Of NestJS
+## 1. Architecture of NestJS
 
 - NestJS는 TypeScript를 지원함. TypeScript는 정적 타입을 통해 컴파일 타임에 타입 검사를 해서 코드의 안정성을 향상시킴
 - NestJS는 아키텍처의 정의를 프레임워크에서 제공하기 때문에 개발자들의 아키텍처가 통일되고 서로가 작성한 코드의 구조를 쉽게 파악할 수 있음
@@ -38,25 +38,54 @@ Learning how to build Enterprise NodeJS applications using NestJS
 - 서비스 : 컨트롤러는 URL을 가져오는 역할 뿐 비지니스 로직은 모두 서비스에 구현함. 서비스는 일반적으로 실제의 function을 가지는 부분
 - 데코레이터 : 클래스에 함수 기능을 추가 할 수 있음. 데코레이터는 꾸며주는 함수나 클래스와 반드시 붙어있어야 함
 
+![Nest API Example](img/nest-api-example.png)
+
+## 2. REST API
+
+- `movies` controller를 생성
+
+  - Nest CLI Tool에서 자동 생성된 `src/app.controller.ts`와 `src/app.service.ts` 파일을 삭제하고, `src/app.module.ts` 파일에서 `app.controller`, `app.service`와 관련 내용을 삭제 후 실행
+  - 아래 명령을 실행하면, `src/movies` 폴더에 `movies.controller.ts`가 생성되고, `app.module.ts` 파일에 `movies.controller` 모듈이 등록됨
+
+  ```zsh
+  nest g co    # nest generate controller
+  ```
+
+  ![NestJs CLI Tool - Sequence](img/nestjs-cli-tool.png)
+
+- `movies.controller.ts` 샘플
+
+  ```typescript
+  @Controller()
+  export class MoviesController {
+    @Get()
+    getAll() {
+      return 'This will return all movies';
+    }
+  }
+  ```
+
 - Folders
 
   ```
-  ├── README.md
   ├── dist    // Source build
-  ├── nest-cli.json
   ├── node_modules    // node packages
-  ├── package-lock.json
-  ├── package.json
   ├── src
-  │   ├── app.controller.ts    // Nest Controllers
+  │   ├── movies    // movies module
+  │   │   ├── movies.controller.ts    // Nest Controllers
+  │   │   └── movies.service.ts    // Nest Services
   │   ├── app.module.ts    // AppModule and Moudles
-  │   ├── app.service.ts    // Nest Services
-  │   └── main.ts    // Mandatory file name
+  │   └── main.ts    // Mandatory file name - starting point
   ├── test
   │   ├── app.e2e-spec.ts
   │   └── jest-e2e.json
+  ├── .eslintrc.js
+  ├── .gitignore
+  ├── .prettierrc
+  ├── nest-cli.json
+  ├── package-lock.json
+  ├── package.json
   ├── tsconfig.build.json
-  └── tsconfig.json
+  ├── tsconfig.json
+  └── README.md
   ```
-
-## 2. REST API
