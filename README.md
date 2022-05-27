@@ -4,6 +4,8 @@ Learning how to build Enterprise NodeJS applications using NestJS
 
 - 노마드코더 강의 : [NestJS로 API 만들기](https://nomadcoders.co/nestjs-fundamentals)
 
+- NestJS Document : https://docs.nestjs.com/
+
 ## 0. Project Setup
 
 - @nestjs/cli 설치
@@ -42,31 +44,67 @@ Learning how to build Enterprise NodeJS applications using NestJS
 
 ## 2. REST API
 
-### NestJs CLI Tool - Sequence
+- NestJs CLI Tool - Sequence
 
-![NestJs CLI Tool - Sequence](img/nestjs-cli-tool.png)
+  ![NestJs CLI Tool - Sequence](img/nestjs-cli-tool.png)
 
-### `movies` controller 생성
+- `movies` controller 생성
 
-- Nest CLI Tool에서 자동 생성된 `src/app.controller.ts`와 `src/app.service.ts` 파일을 삭제
+  - Nest CLI Tool에서 자동 생성된 `src/app.controller.ts`와 `src/app.service.ts` 파일을 삭제
 
-- `src/app.module.ts` 파일에서 `app.controller`, `app.service`와 관련 내용을 모두 삭제
+  - `src/app.module.ts` 파일에서 `app.controller`, `app.service`와 관련 내용을 모두 삭제
 
-- 아래 명령을 실행하면, `src/movies` 폴더에 `movies.controller.ts`가 생성되고, `app.module.ts` 파일에 `MoviesController` 모듈이 `controllers`에 등록됨
+  - 아래 명령을 실행하면, `src/movies` 폴더에 `movies.controller.ts`가 생성되고, `app.module.ts` 파일에 `MoviesController` 모듈이 `controllers`에 등록됨
 
-```zsh
-nest g co    # nest generate controller ==> movies
-```
+  ```zsh
+  nest g co    # nest generate controller ==> movies
+  ```
 
-### `movies` service 생성
+- `movies` service 생성
 
-- 아래 명령을 실행하면, `src/movies` 폴더에 `movies.service.ts`가 생성되고, `app.module.ts` 파일에 `MoviesService` 모듈이 `providers`에 등록됨
+  - 아래 명령을 실행하면, `src/movies` 폴더에 `movies.service.ts`가 생성되고, `app.module.ts` 파일에 `MoviesService` 모듈이 `providers`에 등록됨
 
-```zsh
-nest g s    # nest generate service ==> movies
-```
+  ```zsh
+  nest g s    # nest generate service ==> movies
+  ```
 
-### Folder Example
+- DTOs and Validation
+
+  - DTO : Data Transfer Object is model definitions for transferring Object between Layers
+
+    - CreateMovieDto example
+
+    ```js
+    export class CreateMovieDto {
+      @IsString()
+      readonly title: string;
+
+      @IsNumber()
+      readonly year: number;
+
+      @IsOptional()
+      @IsString({ each: true })
+      readonly geners: string[];
+    }
+    ```
+
+  - ValidationPipe
+
+    ```js
+    async function bootstrap() {
+      const app = await NestFactory.create(AppModule);
+      app.useGlobalPipes(
+        new ValidationPipe({
+          whitelist: true, // validator will strip validated object of any properties that do not have any decorators
+          forbidNonWhitelisted: true, // instead of stripping non-whitelisted properties validator will throw an error
+          transform: true, // arguments type transform (ex, string ==> number)
+        }),
+      );
+      await app.listen(3000);
+    }
+    ```
+
+## Folder Example
 
 ```
 ├── dist    // Source build
