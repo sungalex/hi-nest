@@ -195,15 +195,18 @@ Learning how to build Enterprise NodeJS applications using NestJS
 ├── dist    // Source build
 ├── node_modules    // node packages
 ├── src
-│   ├── movies    // movies module
-│   │   ├── dto
-│   │   ├── entities
-│   │   ├── movies.controller.ts    // Nest Controllers
-│   │   └── movies.service.ts    // Nest Services
+│   ├── movies    // movies module folder
+│   │   ├── dto   // dto folder
+│   │   ├── entities  // entities folder
+│   │   ├── movies.controller.ts    // movies Controller
+│   │   └── movies.module.ts    // movies Module
+│   │   └── movies.service.spec.ts    // movice.service Unit Testing file
+│   │   └── movies.service.ts    // movies Service
+│   ├── app.controller.ts    // app Controller for Home("/")
 │   ├── app.module.ts    // AppModule and Moudles
 │   └── main.ts    // Mandatory file name - starting point
 ├── test
-│   ├── app.e2e-spec.ts
+│   ├── app.e2e-spec.ts   // End-to-End Testing file
 │   └── jest-e2e.json
 ├── .eslintrc.js
 ├── .gitignore
@@ -211,7 +214,7 @@ Learning how to build Enterprise NodeJS applications using NestJS
 ├── nest-cli.json
 ├── package-lock.json
 ├── package.json
+├── README.md
 ├── tsconfig.build.json
-├── tsconfig.json
-└── README.md
+└── tsconfig.json
 ```
