@@ -34,4 +34,8 @@ export class MoviesService {
     this.deleteOne(id);
     this.movies.push({ ...movie, ...updateData });
   }
+
+  search(year: string) {
+    return this.movies.filter((movie) => movie.year === +year);
+  }
 }
