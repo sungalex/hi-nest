@@ -104,6 +104,52 @@ Learning how to build Enterprise NodeJS applications using NestJS
     }
     ```
 
+- movies Module and app Controller 생성
+
+  - `app.module.ts` controllers와 providers에 등록된 `MoviesController`와 `MoviesService`를 지우고, 아래 명령으로 `movies` 모듈을 생성
+
+  ```zsh
+  nest g mo    # nest generate module ==> name: movies
+  ```
+
+  - `movies.module.ts`에 아래와 같이 controllers와 providers 추가
+
+  ```js
+  @Module({
+    controllers: [MoviesController],
+    providers: [MoviesService],
+  })
+  export class MoviesModule {}
+  ```
+
+  - `/`로 접속 시 Home page를 생성하기 위해 아래와 같이 `app` controller 생성 후 `app.controllers.ts`를 `src` 폴더로 이동하고 불필요한 파일은 삭제
+
+  ```zsh
+  nest g co    # nest generate controller ==> name: app
+  ```
+
+  - `app.controllers.ts`에 아래와 같이 Home Page API 작성
+
+  ```js
+  @Controller('')
+  export class AppController {
+    @Get()
+    home() {
+      return 'Welcome to my Movie API';
+    }
+  }
+  ```
+
+  - `http://localhost:3000` 호출 시 `home()`이 실행되고, `http://localhost:3000/movies` 호출 시 `movies.controller.ts`의 `getAll()`이 호출됨
+
+    - GET `http://localhost:3000` ===> home()
+    - GET `http://localhost:3000/movies` ===> getAll()
+    - GET `http://localhost:3000/movies/1` ===> getOne()
+    - GET `http://localhost:3000/movies/search?year=2022` ===> search()
+    - POST `http://localhost:3000/movies` ===> create(with body)
+    - DELETE `http://localhost:3000/movies/1` ===> remove()
+    - PATCH `http://localhost:3000/movies/1` ===> patch(with body)
+
 ## Folder Example
 
 ```
