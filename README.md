@@ -150,6 +150,45 @@ Learning how to build Enterprise NodeJS applications using NestJS
     - DELETE `http://localhost:3000/movies/1` ===> remove()
     - PATCH `http://localhost:3000/movies/1` ===> patch(with body)
 
+## UNIT Testing
+
+- 기본 테스트 프레임워크로 [Jest](https://github.com/facebook/jest)를 제공
+
+- Jest는 테스트 실행기 역할을 하며, mocking, spying 등을 돕는 Assert functions과 [Test Double](https://martinfowler.com/bliki/TestDouble.html) 유틸리티를 제공
+
+- 테스트 파일은 접미사에 `.spec` 또는 `.test`를 포함해야 하며, 테스트 하려는 파일 근처에 두어야 함
+
+- The Test class has a `createTestingModule()` method that takes a module metadata object as its argument (the same object you pass to the `@Module()` decorator). This method returns a TestingModule instance which in turn provides a few methods. For unit tests, the important one is the `compile()` method. This method bootstraps a module with its dependencies (similar to the way an application is bootstrapped in the conventional `main.ts` file using `NestFactory.create()`), and returns a module that is ready for testing.
+
+- `movies.service.spec.ts` example
+
+  ```js
+  import { Test, TestingModule } from '@nestjs/testing';
+  import { MoviesService } from './movies.service';
+
+  describe('MoviesService', () => {
+    let service: MoviesService;
+
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [MoviesService],
+      }).compile();
+
+      service = module.get<MoviesService>(MoviesService);
+    });
+
+    it('should be defined', () => {
+      expect(service).toBeDefined();
+    });
+
+    describe('getAll', () => {
+      it('should be return an array', () => {
+        const result = service.getAll();
+        expect(result).toBeInstanceOf(Array);
+      });
+    });
+  ```
+
 ## Folder Example
 
 ```
