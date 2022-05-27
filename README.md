@@ -28,7 +28,6 @@ Learning how to build Enterprise NodeJS applications using NestJS
 
 ## 1. Architecture of NestJS
 
-- NestJS는 TypeScript를 지원함. TypeScript는 정적 타입을 통해 컴파일 타임에 타입 검사를 해서 코드의 안정성을 향상시킴
 - NestJS는 아키텍처의 정의를 프레임워크에서 제공하기 때문에 개발자들의 아키텍처가 통일되고 서로가 작성한 코드의 구조를 쉽게 파악할 수 있음
 - 파일 구조 : main.ts -> app.module.ts (AppModule) -> app.controller.ts -> app.service.ts
 - NestJS는 main.ts 파일을 가지며, 무조건 이 이름이여야만 한다. AppModule로 app을 생성함
@@ -37,55 +36,59 @@ Learning how to build Enterprise NodeJS applications using NestJS
 - 컨트롤러 : 기본적으로 URL을 가져오고 함수를 실행시킴. node.js에서 express의 라우터와 비슷한 존재. 즉 URL을 가져와 함수를 매핑함
 - 서비스 : 컨트롤러는 URL을 가져오는 역할 뿐 비지니스 로직은 모두 서비스에 구현함. 서비스는 일반적으로 실제의 function을 가지는 부분
 - 데코레이터 : 클래스에 함수 기능을 추가 할 수 있음. 데코레이터는 꾸며주는 함수나 클래스와 반드시 붙어있어야 함
+- NestJS는 TypeScript를 지원함. TypeScript는 정적 타입을 통해 컴파일 타임에 타입 검사를 해서 코드의 안정성을 향상시킴
 
 ![Nest API Example](img/nest-api-example.png)
 
 ## 2. REST API
 
-- `movies` controller를 생성
+### NestJs CLI Tool - Sequence
 
-  - Nest CLI Tool에서 자동 생성된 `src/app.controller.ts`와 `src/app.service.ts` 파일을 삭제하고, `src/app.module.ts` 파일에서 `app.controller`, `app.service`와 관련 내용을 삭제 후 실행
-  - 아래 명령을 실행하면, `src/movies` 폴더에 `movies.controller.ts`가 생성되고, `app.module.ts` 파일에 `movies.controller` 모듈이 등록됨
+![NestJs CLI Tool - Sequence](img/nestjs-cli-tool.png)
 
-  ```zsh
-  nest g co    # nest generate controller
-  ```
+### `movies` controller 생성
 
-  ![NestJs CLI Tool - Sequence](img/nestjs-cli-tool.png)
+- Nest CLI Tool에서 자동 생성된 `src/app.controller.ts`와 `src/app.service.ts` 파일을 삭제
 
-- `movies.controller.ts` 샘플
+- `src/app.module.ts` 파일에서 `app.controller`, `app.service`와 관련 내용을 모두 삭제
 
-  ```typescript
-  @Controller()
-  export class MoviesController {
-    @Get()
-    getAll() {
-      return 'This will return all movies';
-    }
-  }
-  ```
+- 아래 명령을 실행하면, `src/movies` 폴더에 `movies.controller.ts`가 생성되고, `app.module.ts` 파일에 `MoviesController` 모듈이 `controllers`에 등록됨
 
-- Folders
+```zsh
+nest g co    # nest generate controller ==> movies
+```
 
-  ```
-  ├── dist    // Source build
-  ├── node_modules    // node packages
-  ├── src
-  │   ├── movies    // movies module
-  │   │   ├── movies.controller.ts    // Nest Controllers
-  │   │   └── movies.service.ts    // Nest Services
-  │   ├── app.module.ts    // AppModule and Moudles
-  │   └── main.ts    // Mandatory file name - starting point
-  ├── test
-  │   ├── app.e2e-spec.ts
-  │   └── jest-e2e.json
-  ├── .eslintrc.js
-  ├── .gitignore
-  ├── .prettierrc
-  ├── nest-cli.json
-  ├── package-lock.json
-  ├── package.json
-  ├── tsconfig.build.json
-  ├── tsconfig.json
-  └── README.md
-  ```
+### `movies` service 생성
+
+- 아래 명령을 실행하면, `src/movies` 폴더에 `movies.service.ts`가 생성되고, `app.module.ts` 파일에 `MoviesService` 모듈이 `providers`에 등록됨
+
+```zsh
+nest g s    # nest generate service ==> movies
+```
+
+### Folder Example
+
+```
+├── dist    // Source build
+├── node_modules    // node packages
+├── src
+│   ├── movies    // movies module
+│   │   ├── dto
+│   │   ├── entities
+│   │   ├── movies.controller.ts    // Nest Controllers
+│   │   └── movies.service.ts    // Nest Services
+│   ├── app.module.ts    // AppModule and Moudles
+│   └── main.ts    // Mandatory file name - starting point
+├── test
+│   ├── app.e2e-spec.ts
+│   └── jest-e2e.json
+├── .eslintrc.js
+├── .gitignore
+├── .prettierrc
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── tsconfig.build.json
+├── tsconfig.json
+└── README.md
+```
