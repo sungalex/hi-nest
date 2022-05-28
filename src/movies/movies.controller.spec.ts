@@ -62,6 +62,13 @@ describe('MoviesController', () => {
       const movie = controller.getOne('1');
       expect(movie).toBeDefined();
     });
+    it('movie NotFoundException', () => {
+      try {
+        controller.getOne('999');
+      } catch (e) {
+        expect(e).toBeInstanceOf(NotFoundException);
+      }
+    });
     it('DELETE a movie', () => {
       const beforeDelete = controller.getAll().length;
       controller.remove('1');
