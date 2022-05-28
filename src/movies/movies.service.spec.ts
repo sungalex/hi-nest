@@ -58,12 +58,12 @@ describe('MoviesService', () => {
   describe('getOne', () => {
     it('should be return a Movie', () => {
       service.create(createData[1]);
-      const movie = service.getOne(1);
+      const movie = service.getOne('1');
       expect(movie).toBeDefined();
     });
     it('should throw 404 error', () => {
       try {
-        service.getOne(999);
+        service.getOne('999');
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
@@ -74,13 +74,13 @@ describe('MoviesService', () => {
     it('deletes a movie', () => {
       service.create(createData[0]);
       const beforeDelete = service.getAll().length;
-      service.deleteOne(1);
+      service.deleteOne('1');
       const afterDelete = service.getAll().length;
       expect(afterDelete).toBeLessThan(beforeDelete);
     });
     it('should be NotFoundException', () => {
       try {
-        service.deleteOne(999);
+        service.deleteOne('999');
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
@@ -90,15 +90,15 @@ describe('MoviesService', () => {
   describe('update', () => {
     it('should update a movie', () => {
       service.create(createData[0]);
-      service.update(1, updateData[0]);
-      service.update(1, updateData[1]);
-      const movie = service.getOne(1);
+      service.update('1', updateData[0]);
+      service.update('1', updateData[1]);
+      const movie = service.getOne('1');
       expect(movie.title).toEqual('updated title');
       expect(movie.year).toEqual(2030);
     });
     it('should throw a NotFoundException', () => {
       try {
-        service.update(999, updateData[0]);
+        service.update('999', updateData[0]);
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
@@ -109,7 +109,7 @@ describe('MoviesService', () => {
     it('should be return movies', () => {
       service.create(createData[0]);
       service.create(createData[1]);
-      const movies = service.search(2022);
+      const movies = service.search('2022');
       expect(movies).toBeInstanceOf(Array);
     });
   });
