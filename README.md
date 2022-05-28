@@ -189,6 +189,77 @@ Learning how to build Enterprise NodeJS applications using NestJS
     });
   ```
 
+- Unit testing 실행
+
+  ```zsh
+  npm run test:watch
+  ```
+
+- Test Coverage 확인
+
+  ```zsh
+  npm run test:cov
+  ```
+
+## E2E Testing
+
+- E2E(end-to-end) 테스트는 최종 사용자가 프로덕션 시스템과 상호 작용 유형에 가까운 종합적인 수준에서 클래스와 모듈의 상호 작용을 다룹니다
+
+  - E2E(end-to-end) testing covers the interaction of classes and modules at a more aggregate level -- closer to the kind of interaction that end-users will have with the production system
+
+- E2E 테스트를 수행하기 위해 단위 테스트에서 다룬 것과 유사한 구성을 사용합니다
+
+- Nest를 사용하면 `Supertest` 라이브러리를 사용하여 HTTP 요청을 쉽게 시뮬레이션할 수 있습니다
+
+- Nest는 `beforeEach()`로 테스트(`it`, indevidual test) 마다 Application을 생성합나다. 본 프로젝트는 가상의 Database를 이용하기 때문에 Application이 생성될 때 마다 Data가 없는 상태로 생성 됩니다. `beforeEach`를 `beforeAll`로 변경하면, E2E 테스트를 시나리오 테스트 처럼 앞 부분에서 생성한 데이터를 유지하면서 다음 테스트를 진행할 수 있습니다.
+
+- E2E Testing example
+
+  ```js
+  import * as request from 'supertest';
+  import { Test, TestingModule } from '@nestjs/testing';
+  import { INestApplication, ValidationPipe } from '@nestjs/common';
+  import { AppModule } from './../src/app.module';
+
+  describe('AppController (e2e)', () => {
+    let app: INestApplication;
+
+    beforeAll(async () => {
+      const moduleFixture: TestingModule = await Test.createTestingModule({
+        imports: [AppModule],
+      }).compile();
+
+      app = moduleFixture.createNestApplication();
+      // same configuration as main.ts
+      app.useGlobalPipes(
+        new ValidationPipe({
+          whitelist: true,
+          forbidNonWhitelisted: true,
+          transform: true,
+        }),
+      );
+      await app.init();
+    });
+
+    it('/ (GET)', () => {
+      return request(app.getHttpServer())
+        .get('/')
+        .expect(200)
+        .expect('Welcome to my Movie API');
+    });
+
+    afterAll(async () => {
+      await app.close();
+    });
+  });
+  ```
+
+- E2E test 실행
+
+  ```zsh
+  npm run test:e2e
+  ```
+
 ## Folder Example
 
 ```
