@@ -23,13 +23,13 @@ export class MoviesController {
   }
 
   @Get('search')
-  search(@Query('year') seachingYear: string): Movie[] {
+  search(@Query('year') seachingYear: number): Movie[] {
     // Type will be transformed from string to number
     return this.moviesService.search(seachingYear);
   }
 
   @Get(':id')
-  getOne(@Param('id') movieId: string): Movie {
+  getOne(@Param('id') movieId: number): Movie {
     return this.moviesService.getOne(movieId);
   }
 
@@ -39,12 +39,12 @@ export class MoviesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') movieId: string) {
+  remove(@Param('id') movieId: number) {
     return this.moviesService.deleteOne(movieId);
   }
 
   @Patch(':id')
-  patch(@Param('id') movieId: string, @Body() updateData: UpdateMovieDto) {
+  patch(@Param('id') movieId: number, @Body() updateData: UpdateMovieDto) {
     return this.moviesService.update(movieId, updateData);
   }
 }

@@ -52,31 +52,31 @@ describe('MoviesController', () => {
 
   describe('/movies/search?', () => {
     it('GET search year', () => {
-      const movies = controller.search('2022');
+      const movies = controller.search(2022);
       expect(movies).toBeInstanceOf(Array);
     });
   });
 
   describe('/movies/:id', () => {
     it('GET a movie', () => {
-      const movie = controller.getOne('1');
+      const movie = controller.getOne(1);
       expect(movie).toBeDefined();
     });
     it('movie NotFoundException', () => {
       try {
-        controller.getOne('999');
+        controller.getOne(999);
       } catch (e) {
         expect(e).toBeInstanceOf(NotFoundException);
       }
     });
     it('DELETE a movie', () => {
       const beforeDelete = controller.getAll().length;
-      controller.remove('1');
+      controller.remove(1);
       const afterDelete = controller.getAll().length;
       expect(afterDelete).toBeLessThan(beforeDelete);
     });
     it('PATCH a movie', () => {
-      controller.patch('1', { title: 'Updated title!!!' });
+      controller.patch(1, { title: 'Updated title!!!' });
     });
   });
 });
